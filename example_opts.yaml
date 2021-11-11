@@ -1,0 +1,25 @@
+# Epochs
+epochs : 50
+# Number of posterior samples
+samples : 5000
+# Output File Name
+model_file :  bcnn.pyro
+# Internal Model name
+model_name : bcnn_weak
+# Interal state-dict name
+state_dict : bcnn_weak_state_dict
+# Posterior File
+posterior_file : ../output/testResult/uncertainty/bnn_50_5000.h5
+# Image range start
+range_min : 0
+# Image range Stop
+range_max : 10000
+# GPU Flag
+useGPU : False
+# Batch size
+batch_size : 1000
+# Number exclusion
+trainExcludeOneNumber : False
+testExcludeOneNumber : False
+# Plot Directories
+plotDirectory : ../output/plots/
