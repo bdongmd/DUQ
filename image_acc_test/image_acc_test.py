@@ -10,10 +10,9 @@ import numpy as np
 import h5py
 import sys
 sys.path.append('../')
-import significance
 import probabilities
 import accuracy
-from modules import network
+from models import network
 
 ds_start = int(sys.argv[1]) 
 ds_end = int(sys.argv[2])

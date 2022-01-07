@@ -17,7 +17,7 @@ from scipy.stats.stats import mode
 from torch.serialization import load
 
 from torch.utils.data.dataloader import DataLoader
-from modules import network
+from models import network
 from pyro.infer import Predictive
 
 tryGPU = False

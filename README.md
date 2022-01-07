@@ -1,38 +1,37 @@
 Dropout
 =================
 
-code for Dropout studies using MNIST dataset  
-MNIST dataset download from: http://yann.lecun.com/exdb/mnist/
+Repository for Dropout studies using the MNIST [dataset](http://yann.lecun.com/exdb/mnist/). 
+
+# Content
+* [Dependency](#dependency)
+* [Instructions](#instructions)
 
 
-# Setup
+## Dependency
 
-The original package dependency is as below:
+The dependency of ths package is listed as folling:
+* torch 
+* pyro
+* torchvision
+* cuda if you want to run with GPU
+* numpy
+* scipy
+* matplotlib
+* h5py
 
-1. python3
-2. numpy
-3. matplotlib
-4. torch
-5. torchvision
-6. h5py
-7. scipy
-8. cuda if you want to run with GPU
-
-This has expanded with the Bayesian Neural Network, which requires [Pyro](http://pyro.ai/). Unfortunately, it does not exist on conda, so you'll have to install via pip. Run: `pip3 install pyro-ppl` - note the ppl! Crossing conda and pip makes things tangle easily, which is a pain.
-
+The study includes a comparison between Dropout and the Bayesian Neural Network, which requires [Pyro](http://pyro.ai/). Unfortunately, it does not exist on conda, so you'll have to install via pip. Run: `pip3 install pyro-ppl` - note the ppl! Crossing conda and pip makes things tangle easily, which is a pain.
 To make this a bit easier, an `environment.yaml` file is included for easy installation: 
 
 ```
 conda env create -f environment.yaml
-````
+```
 
-
-
-# Models
+## Instructioins
 
 The following following instructions outline how to train each network, then run it on the testing data. These are also drivers within the `Makefile` to make the procedure less involved. The general design flow is to train each network, run on testing data and produce one uniform data housing object `EvaluationRecords`, containing useful output quantities for either network.
 
-## Dropout Network
+### Dropout Network
 ---
 
 Makefile approach:
@@ -41,13 +40,13 @@ Makefile approach:
 make dropout_workflow
 ```
 
-### Training:
+#### Training:
 
 ```
 python3 train.py $(model_name) $(droupout_rate) $(epochs) $(n_images) 
 ```
 
-The `model_name` parameter must be defined in `modules.py`, generally you'll want `CNNWeak`. This produces a file of format:
+The `model_name` parameter must be defined in `models.py`, generally you'll want `CNNWeak`. This produces a file of format:
 
 ```
 ../output/trainModule/mnist_{model_name}_dr0p{dropout_rate*10}_ep{epochs}_ev{n_images}.pt

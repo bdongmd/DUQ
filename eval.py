@@ -1,10 +1,9 @@
-from modules import network
+from models import network
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 from torchvision import datasets, transforms
-import matplotlib.pyplot as plt
 import h5py
 import sys
 from time import time

@@ -3,7 +3,7 @@ Unit testing for model
 Run via: pytest -v tests.py
 tjb
 """
-from modules import network
+from models import network
 import torch
 import torchvision
 from utils import load_data
@@ -61,7 +61,7 @@ def _eval_module_shape(net):
 
 def test_module_shapes():
     """Tests all defined modules"""
-    from modules import network
+    from models import network
     to_test = [
         network("CNN", p=0.2),
         network("CNNWeak", p=0.2),

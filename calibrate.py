@@ -1,14 +1,12 @@
 from torch.nn.modules import utils
-from modules import network
+from models import network
 import sampleAcc 
 
-import numpy as np
 import h5py
 import torch
 from torch.utils.data import DataLoader
 import sys
 import timeit
-from scipy import stats
 from utils import load_data, get_transform
 from plotting.eval_plot_library import *
 

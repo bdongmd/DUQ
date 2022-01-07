@@ -18,9 +18,8 @@ from pyro.infer import Predictive
 from pyro.infer.autoguide import AutoDiagonalNormal
 from scipy import stats
 import numpy as np
-from modules import network
+from models import network
 import sys
-from collections import OrderedDict
 import arviz as az
 import matplotlib.pyplot as plt
 

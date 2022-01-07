@@ -9,7 +9,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 from time import time
-from modules import network
+from models import network
 import sys
 from utils import load_data, get_transform
 from typing import NamedTuple, Optional, Union

@@ -6,7 +6,7 @@ from torchvision import datasets, transforms
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('../')
-from modules import network
+from models import network
 
 # load test dataset
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,),(0.5,)),])
