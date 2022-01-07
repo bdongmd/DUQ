@@ -6,7 +6,8 @@ Repository for Dropout studies using the MNIST [dataset](http://yann.lecun.com/e
 # Content
 * [Dependency](#dependency)
 * [Instructions](#instructions)
-
+* [Analysis](#analysis)
+* [Resources](#resources)
 
 ## Dependency
 
@@ -52,7 +53,7 @@ The `model_name` parameter must be defined in `models.py`, generally you'll want
 ../output/trainModule/mnist_{model_name}_dr0p{dropout_rate*10}_ep{epochs}_ev{n_images}.pt
 ```
 
-### Evaluate on testing data:
+#### Evaluate on testing data:
 ```
 python3 calibrate.py $(model_name) $(training_string) $(dropout_rate) $(posterior_samples) $(start_image) $(end_image)
 ```
@@ -68,7 +69,7 @@ This will produce the `EvaluationRecords` object, which will be saved at
 Additionally, it runs all of the plotting functions within the file `plotting/eval_plot_library.py`, which are saved within `../output/testResult/uncertainty/` (this directory is a global in that script, may be switched).
 
 
-## Bayesian Neural Network
+### Bayesian Neural Network
 ---
 
 Makefile approach: 
@@ -76,7 +77,7 @@ Makefile approach:
 make bnn_workflow
 ```
 
-### Training
+#### Training
 
 The Bayesian network is driven by a configuration file to set all the options. A sample can be found at `example_opts.yaml`.
 
@@ -88,7 +89,7 @@ python bnn.py options.yaml
 
 This uses SVI to do the training and outputs a file with the Predictive object and state dictionary saved the name given in the configuration as `model_file` (`bcnn.pyro` in the example)
 
-### Posterior Predictive Check
+#### Posterior Predictive Check
 
 Next we want to use the model to make posterior predictions. The script takes the same options file:
 
@@ -99,14 +100,11 @@ python ppc.py options.yaml
 This is the BNN equivalent of `calibrate.py`, and the output object is the same, the finalize method of `EvaluationRecords`.
 
 
-# Analysis
+## Analysis
 
 A utility script to load out output of the `EvaluationRecords` object is found in `plotting/dropout_evaluations.py`.
 
-
-
 Two primary analysis scripts live in this directory, `analysis_tests.py` is intended to perform analysis on a single model. 
-
 
 To compare two (todo: or more) models, use the `model_comparison.py` script.
 
@@ -117,20 +115,20 @@ python model_comparison.py bnn_output.h5 dropout_1.h5 dropout_2.h5 dropout_3.h5 
 Given the output of `calibrate.py` (the dropout posterior) and of `ppc.py` (the bnn posterior), we want to make comparisons. The following script (**WIP**) is built to do the image-wise KS test:
 
 
-## Possible future upkeep todos
+### Possible future upkeep todos
 1. Create specific `EvaluationRecords` objects for the BNN and dropout network independently, which inherit from a parent class.
 2. Make testing suite more rigorous. Current coverage is quite small, would be nice to expand this.
 
 
-## Full Directory Contents
+### Full Directory Contents
 
-### Code
+#### Code
 
 General
 
 - `analysis_tests.py` - Analysis on single model
 - `EvaluationRecords.py` - Class for recording evaluation on testing data
-- `modules.py` - Defined NN models
+- `models.py` - Defined NN models
 - `mutualinfo.py` - Functions to calculate mutual information (KL divergence, Jensen-Shannon divergence) 
 - `smoothing.py` - Class to smooth 2D array along one axis
 - `utils.py` - General utilities for loading data, rotating images, adding noise
@@ -173,11 +171,3 @@ BNN
 8. [Qualitative Analysis of Monte Carlo Dropout](https://arxiv.org/abs/2007.01720v1) (unpublished but interesting)
 9. [Uncertainty Quantification in Deep Learning](https://www.inovex.de/blog/uncertainty-quantification-deep-learning/)
 10. [Peculiar Velocity Estimation from Kinetic SZ Effect using Deep Neural Networks](https://arxiv.org/abs/2010.03762)
-
-
-### Meetings
-
-- Aug 11, 2020: https://indico.cern.ch/event/945285/  
-- Aug 18, 2020: https://indico.cern.ch/event/947387/  
-
-Updated: Jan 7, 2020 (tjb)
