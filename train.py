@@ -285,7 +285,7 @@ def main():
             )
 
     # save numbers
-    hf = h5py.File('../output/forPaper/trainResult/mnist_{}_dr0p{}_ep{}_ev{}.h5'.format(train_model, int(dropout_rate*10), epochs, ds_end), 'w')
+    hf = h5py.File('../output/trainResult/mnist_{}_dr0p{}_ep{}_ev{}.h5'.format(train_model, int(dropout_rate*10), epochs, ds_end), 'w')
     records.save_to_file(hf)
     hf.close()
 
@@ -297,8 +297,8 @@ def main():
         torch.save(model_set.clf.state_dict(), '../output/trainModule/mnist_{}_dr0p{}_ep{}_ev{}_no9.pt'.format(train_model, int(dropout_rate*10), epochs, ds_end))
         torch.save(model_set.optimizer.state_dict(), '../output/trainModule/mnist_{}_dr0p{}_ep{}_ev{}_optimizer_no9.pt'.format(train_model, int(dropout_rate*10), epochs, ds_end))
     else:
-        torch.save(model_set.clf.state_dict(), '../output/forPaper/trainModule/mnist_{}_dr0p{}_ep{}_ev{}.pt'.format(train_model, int(dropout_rate*10), epochs, ds_end))
-        torch.save(model_set.optimizer.state_dict(), '../output/forPaper/trainModule/mnist_{}_dr0p{}_ep{}_ev{}_optimizer.pt'.format(train_model, int(dropout_rate*10), epochs, ds_end))
+        torch.save(model_set.clf.state_dict(), '../output/trainModule/mnist_{}_dr0p{}_ep{}_ev{}.pt'.format(train_model, int(dropout_rate*10), epochs, ds_end))
+        torch.save(model_set.optimizer.state_dict(), '../output/trainModule/mnist_{}_dr0p{}_ep{}_ev{}_optimizer.pt'.format(train_model, int(dropout_rate*10), epochs, ds_end))
 
 
 if __name__ == "__main__":

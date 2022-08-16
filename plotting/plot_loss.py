@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-#f = h5py.File('../../output/forPaper/trained_60k_nonrotated/trainResult/mnist_CNNWeak_dr0p2_ep100_ev60000.h5', 'r')
+#f = h5py.File('../../output/trained_60k_nonrotated/trainResult/mnist_CNNWeak_dr0p2_ep100_ev60000.h5', 'r')
 f = h5py.File(sys.argv[1], 'r')
 train_loss = f['train_loss_history'][()]
 test_loss = f['test_loss_ave_history'][()]

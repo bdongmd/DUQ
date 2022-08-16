@@ -231,6 +231,7 @@ def main():
         hf = h5py.File(f'../output/testResult/uncertainty/cali_{trainmodel}_{trainpara}_test{int(dropout_rate*10)}_image{range_min+1}_{range_max}_GaussStd{GaussStd}.h5',"w")
     else:
         print("Filename: "+ f'../output/testResult/uncertainty/cali_{trainmodel}_{trainpara}_test{int(dropout_rate*10)}_image{range_min+1}_{range_max}.h5')
+        print("Pdfname: "+ f'../output/testResult/uncertainty/cali_{trainmodel}_{trainpara}_test{int(dropout_rate*10)}_image{range_min+1}_{range_max}.pdf')
         hf = h5py.File(f'../output/testResult/uncertainty/cali_{trainmodel}_{trainpara}_test{int(dropout_rate*10)}_image{range_min+1}_{range_max}.h5', "w")
     records.save_to_file(hf=hf)
     hf.close()

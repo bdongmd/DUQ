@@ -7,7 +7,7 @@ from matplotlib.pyplot import fignum_exists, savefig
 import numpy as np
 from numpy.core.records import record
 from torch import floor
-from calibrate import EvaluationRecords
+from EvaluationRecords import EvaluationRecords
 from typing import Optional
 from scipy import stats
 
@@ -63,7 +63,7 @@ def plot_significance(records: EvaluationRecords, pdf: Optional[PdfPages] = None
     fig, ax = plt.subplots(figsize=(10,10),ncols=1, nrows=1)
     plt.hist(np.array(records.significance), bins=100, range=[-5,5],density=True, label="Dropout Calculated", alpha=0.7)
     plt.hist(stats.norm.ppf(records.image_acc),bins=100, range=[-5,5],color='orange',density=True, label="Dropout Observed", alpha=0.7)
-    plot_style(x_label="Frequency", y_label="Classification Significance")
+    plot_style(x_label="Classification Significance", y_label="Frequency")
     save_fig(title="significance", pdf=pdf)
     plt.close()
 
@@ -78,7 +78,7 @@ def plot_probability(records: EvaluationRecords, pdf: Optional[PdfPages] = None)
     fig,ax = plt.subplots(figsize=(10,10),ncols=1, nrows=1)
     plt.hist(np.array(records.probability), bins=200,range=[0,1],density=True, label="Dropout calculated", alpha=0.7)
     plt.hist(np.array(records.image_acc),bins=200,range=[0,1],density=True, label="Dropout Observed", alpha=0.7)
-    plot_style(x_label="Frequency", y_label="Classification Probability")
+    plot_style(x_label="Classification Probability", y_label="Frequency")
     save_fig(title="probability", pdf=pdf)
     plt.close()
 
@@ -113,14 +113,14 @@ def plot_prob_v_pull(records: EvaluationRecords, pdf: Optional[PdfPages] = None)
     plt.plot(records.image_acc, records.probability_asy, 'o')
     plot_style("Image accuracy", "Calculated Probability (asy)")
 
+    ibins = np.arange(0,1,0.02)
     plt.sca(ax[1,0])
-    plt.hist(records.image_pull,bins=300,range=[-5,5], alpha=0.7, label="Pull from symmetric uncertainty", density=True)
-    plot_style("Pull", "Probability Density")
+    plt.hist2d(records.image_acc.numpy(), records.probability, bins=[ibins, ibins], cmap=plt.cm.jet, cmin=1)
+    plot_style("Image accuracy", "Calculated Probability")
 
     plt.sca(ax[1,1])
-    plt.hist(records.image_pull_asy,bins=300,range=[-5,5], alpha=0.7, label="Pull from asymmetric uncertainty", density=True)
-    plot_style("Pull", "Probability Density")
-
+    plt.hist2d(records.image_acc.numpy(), records.probability_asy, bins=[ibins, ibins], cmap=plt.cm.jet, cmin=1)
+    plot_style("Image accuracy", "Calculated Probability (asy)")
 
     save_fig("prob_v_pull", pdf=pdf)
     plt.close()
@@ -133,14 +133,22 @@ def plot_prob_m_acc(records: EvaluationRecords, pdf: Optional[PdfPages] = None) 
         records (EvaluationRecords): saved evaluation parameters 
         pdf (Optional[PdfPages], optional): Pass desired PdfPages object, if none passed, saves as png. Defaults to None.
     """    
-    fig,ax = plt.subplots(figsize=(10,10),ncols=2,nrows=1)
-    plt.sca(ax[0])
-    plt.hist(records.probability - records.image_acc.numpy(), bins=200, range=[-1,1], density=True, alpha=0.7)
+    fig,ax = plt.subplots(figsize=(10,10),ncols=2,nrows=2)
+    plt.sca(ax[0,0])
+    plt.hist(records.probability - records.image_acc.numpy(), bins=100, range=[-0.5,0.5], density=True, alpha=0.7)
     plot_style("Calculated Probability - Image Accuracy", "Frequency")
 
-    plt.sca(ax[1])
-    plt.hist(records.probability_asy - records.image_acc.numpy(), bins=200,range=[-1,1],density=True, alpha=0.7)
+    plt.sca(ax[0,1])
+    plt.hist(records.probability_asy - records.image_acc.numpy(), bins=100,range=[-0.5,0.5],density=True, alpha=0.7)
     plot_style("Calculated Probability(asy) - Image Accuracy", "Frequency")
+
+    plt.sca(ax[1,0])
+    plt.hist(records.image_pull,bins=300,range=[-5,5], alpha=0.7, label="Pull from symmetric uncertainty", density=True)
+    plot_style("Pull", "Probability Density")
+
+    plt.sca(ax[1,1])
+    plt.hist(records.image_pull_asy,bins=300,range=[-5,5], alpha=0.7, label="Pull from asymmetric uncertainty", density=True)
+    plot_style("Pull", "Probability Density")
 
     save_fig("prob_m_acc", pdf)
     plt.close()
@@ -210,7 +218,7 @@ def plot_pull_test(records: EvaluationRecords, pdf: Optional[PdfPages] = None) -
         pdf (Optional[PdfPages], optional): Pass desired PdfPages object, if none passed, saves as png. Defaults to None.
     """      
     fig,ax = plt.subplots(figsize=(10,10),ncols=1,nrows=1)
-    loc,sca=stats.norm.fit(records.image_pull)
+    loc,sca=stats.norm.fit(records.image_pull_test)
     plt.hist(records.image_pull_test,bins=1000,range=[-5,5], alpha=0.7, label="Image to Sample Pull", density=True)
     plt.plot(np.linspace(-5,5,1000), stats.norm.pdf(np.linspace(-5,5,1000), loc=loc,scale=sca), linewidth=2,color='green',label="Gaussian Fit loc: %3.2f scale: %3.2f"%(loc,sca))
     plot_style("Pull", "Probability Density")
